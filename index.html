@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar 2026</title>
+
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        h2 {
+            text-align: center;
+            margin: 20px 0;
+        }
+        table {
+            text-align: center;
+        }
+        th {
+            background-color: #0d6efd;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1 class="text-center mt-4 mb-4">Calendar 2026</h1>
+
+    <div id="calendar"></div>
+</div>
+
+<script>
+    const months = [
+        "January","February","March","April","May","June",
+        "July","August","September","October","November","December"
+    ];
+
+    const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+    function generateCalendar(year) {
+        let calendarHTML = "";
+
+        months.forEach((month, index) => {
+            let firstDay = new Date(year, index, 1).getDay();
+            let totalDays = new Date(year, index + 1, 0).getDate();
+
+            calendarHTML += `
+                <h2>${month} ${year}</h2>
+                <table class="table table-bordered mb-5">
+                    <thead>
+                        <tr>
+                            ${days.map(day => `<th>${day}</th>`).join("")}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+            `;
+
+            for (let i = 0; i < firstDay; i++) {
+                calendarHTML += `<td></td>`;
+            }
+
+            for (let day = 1; day <= totalDays; day++) {
+                if ((firstDay + day - 1) % 7 === 0 && day !== 1) {
+                    calendarHTML += `</tr><tr>`;
+                }
+                calendarHTML += `<td>${day}</td>`;
+            }
+
+            calendarHTML += `</tr></tbody></table>`;
+        });
+
+        document.getElementById("calendar").innerHTML = calendarHTML;
+    }
+
+    generateCalendar(2026);
+</script>
+
+</body>
+</html> 
